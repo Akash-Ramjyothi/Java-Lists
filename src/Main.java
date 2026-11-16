@@ -1,65 +1,61 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.LinkedList;
 
 public class Main {
-    private static Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
+//        LinkedList<String> placesToVisit = new LinkedList<>();
+        var placesToVisit = new LinkedList<String>();
 
-        boolean flag = true;
-        ArrayList<String> groceries = new ArrayList<>();
+        placesToVisit.add("Sydney");
+        placesToVisit.add(0, "Canberra");
+        System.out.println(placesToVisit);
 
-        while (flag) {
-            printActions();
+        addMoreElements(placesToVisit);
+        System.out.println(placesToVisit);
 
-            switch (Integer.parseInt(scanner.nextLine())) {
-                case 1 -> addItems(groceries);
-                case 2 -> removeItems(groceries);
-                default -> flag = false;
-            }
-
-            groceries.sort(Comparator.naturalOrder());
-            System.out.println(groceries);
-        }
+        removeElements(placesToVisit);
+        System.out.println(placesToVisit);
     }
 
-    private static void addItems(ArrayList<String> groceries) {
-        System.out.println("Add item(s) [separate items by comma]:");
-        String[] items = scanner.nextLine().split(",");
-//        groceries.addAll(List.of(items));
+    private static void addMoreElements(LinkedList<String> list) {
+        list.addFirst("Darwin");
+        list.addLast("Hobart");
 
-        for (String i : items) {
-            String trimmed = i.trim();
+        list.offer("Melbourne");
+        list.offerFirst("Brisbane");
+        list.offerLast("Toowoomba");
 
-            if (groceries.indexOf(trimmed) < 0) {
-                groceries.add(trimmed);
-            }
-        }
+        list.push("Alice Springs");
     }
 
-    private static void removeItems(ArrayList<String> groceries) {
-        System.out.println("Remove item(s) [separate items by comma]:");
-        String[] items = scanner.nextLine().split(",");
+    private static void removeElements(LinkedList<String> list) {
+        list.remove(4);
+        list.remove("Brisbane");
 
-        for (String i : items) {
-            String trimmed = i.trim();
-            groceries.remove(trimmed);
-        }
-    }
+        System.out.println(list);
+        String s1 = list.remove();
+        System.out.println(s1 + " was removed");
 
-    private static void printActions() {
-        String textBlock = """
-                Available actions:
-                
-                0 - to shutdown
-                
-                1 - to add item(s) to list (comma delimited list)
-                
-                2 - to remove any items (comma delimited list)
-                
-                Enter a number for which action you want to do:""";
-        System.out.print(textBlock + " ");
+        String s2 = list.removeFirst();
+        System.out.println(s2 + " was removed");
+
+        String s3 = list.removeLast();
+        System.out.println(s3 + " was removed");
+
+        String p1 = list.poll();
+        System.out.println(p1 + " was removed");
+
+        String p2 = list.pollFirst();
+        System.out.println(p2 + " was removed");
+
+        String p3 = list.pollLast();
+        System.out.println(p3 + " was removed");
+
+        list.push("Sydney");
+        list.push("Brisbane");
+        list.push("Canberra");
+        System.out.println(list);
+
+        String p4 = list.pop();
+        System.out.println(p4 + "  was removed");
     }
 }
