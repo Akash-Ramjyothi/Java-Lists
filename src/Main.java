@@ -1,58 +1,43 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
+record Customer(String name, ArrayList<Double> transactions) {
+    public Customer(String name, double initialDeposit) {
+        this(name.toUpperCase(), new ArrayList<Double>(500));
+        transactions.add(initialDeposit);
+    }
+}
 
 public class Main {
     public static void main(String[] args) {
-        Integer boxedInt = Integer.valueOf(15);
-        Integer deprecatedBoxing = new Integer(15);
-        int unboxedInd = boxedInt.intValue();
+        Customer bob = new Customer("Bob S", 1000.0);
+        System.out.println(bob);
+    }
+}
 
-        Integer autoBoxed = 15;
-        int autoUnboxed = autoBoxed;
-        System.out.println(autoBoxed.getClass().getName());
-//        System.out.println(autoUnboxed);
+class Bank {
+    private String name;
+    private ArrayList<Customer> customers = new ArrayList<>(5000);
 
-        Double resultBoxed = getLiteralDoublePrimitive();
-        double resultUnboxed = getDoubleObject();
-
-        Integer[] wrapperArray = new Integer[5];
-        wrapperArray[0] = 50;
-        System.out.println(Arrays.toString(wrapperArray));
-
-        System.out.println(wrapperArray[0].getClass().getName());
-
-        Character[] characterArray = {'a', 'b', 'c', 'd'};
-        System.out.println(Arrays.toString(characterArray));
-
-        var ourList = List.of(1, 2, 3, 4, 5);
-        System.out.println(ourList);
+    public Bank(String name) {
+        this.name = name;
     }
 
-    private static ArrayList<Integer> getList(Integer... varargs) {
-        ArrayList<Integer> aList = new ArrayList<>();
-
-        for (int i : varargs) {
-            aList.add(i);
+    private Customer getCustomer(String customerName) {
+        for (var customer : customers) {
+            if (customer.name().equalsIgnoreCase(customerName)) {
+                return customer;
+            }
         }
 
-        return aList;
+        System.out.printf("Customer (%s) wasn't found %n", customerName);
+        return null;
     }
 
-    private static int returnAnInt(Integer i) {
-        return i;
-    }
-
-    private static Integer returnAnInteger(int i) {
-        return i;
-    }
-
-    private static Double getDoubleObject() {
-
-        return Double.valueOf(100.00);
-    }
-
-    private static double getLiteralDoublePrimitive() {
-        return 100.0;
+    public void addNewCustomer(String customerName, double initialDeposit) {
+        if (getCustomer(customerName) == null) {
+            Customer customer = new Customer(customerName, initialDeposit);
+            customers.add(customer);
+            System.out.println("New Customer added: " + customer);
+        }
     }
 }
